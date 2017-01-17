@@ -13,6 +13,8 @@ $ftp->mkdir("outgoing/$ARGV[1]") if $ARGV[0] eq 'put';
 
 $ftp->cwd("outgoing/$ARGV[1]") or die "Cannot change directory ", $ftp->message;
 
+$ftp->binary() or die "Cannot change to binary mode ", $ftp->message;
+
 for ($run = $ARGV[2]; $run <= @ARGV[3]; ++$run) {
     for ($part = 0; $part < 16; ++$part) {
         $file = sprintf("features_p%02d_r%03d.npy.bz2", $part, $run);
