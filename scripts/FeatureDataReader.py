@@ -16,7 +16,6 @@ class FeatureDataReader:
 
     def readZone(self, run, cycle, zone):
         zid = self._getZoneOffset(zone)
-
         index = self._readFileIndex(run, zid['part'])
         meta = self._readMetaData(zid['part'])
         
@@ -45,7 +44,6 @@ class FeatureDataReader:
 
     def readAllCyclesForZone(self, run, zone):
         zid = self._getZoneOffset(zone)
-
         index = self._readFileIndex(run, zid['part'])
         meta = self._readMetaData(zid['part'])
         
@@ -92,7 +90,6 @@ class FeatureDataReader:
                 for line in fin:
                     key,val = line.split(' -> ')
                     index[int(key)] = int(val)
-
                 self._indexCache[fname] = index
         return self._indexCache[fname]
 
@@ -103,12 +100,10 @@ class FeatureDataReader:
         if fname not in self._metaData:
             with open(fname, 'r') as fin:
                 fin.readline()  # skip metrics header
-
                 names = fin.readline().rstrip('\n').split(',')
                 metrics = dict(zip(names, range(0, len(names))))
 
                 fin.readline()  # skip zones header
-
                 ids = fin.read().splitlines()
                 zones = dict(zip(map(int, ids), range(0, len(ids))))
 
@@ -120,7 +115,6 @@ class FeatureDataReader:
         if not self._zoneOffsets:
             for part in range(0, self._numParts):
                 meta = self._readMetaData(part)
-
                 for key in meta['zones'].keys():
                     self._zoneOffsets[key] = {'part': part, 'offset': meta['zones'][key]}
         return self._zoneOffsets[zone]
