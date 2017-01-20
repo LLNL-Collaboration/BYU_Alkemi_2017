@@ -122,7 +122,7 @@ class FeatureDataReader:
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print "Usage: FeatureDataReader.py dataDir numParts"
+        print 'Usage: FeatureDataReader.py dataDir numParts'
         sys.exit(1)
 
     np.set_printoptions(suppress=True, precision=4)
