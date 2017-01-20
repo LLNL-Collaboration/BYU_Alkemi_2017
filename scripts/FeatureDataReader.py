@@ -125,9 +125,9 @@ if __name__ == '__main__':
         print "Usage: FeatureDataReader.py dataDir numParts"
         sys.exit(1)
 
-    reader = FeatureDataReader(sys.argv[1], int(sys.argv[2]))
-
     np.set_printoptions(suppress=True, precision=4)
+
+    reader = FeatureDataReader(sys.argv[1], int(sys.argv[2]))
 
     data = reader.readZone(0, 0, 0)
     print data
