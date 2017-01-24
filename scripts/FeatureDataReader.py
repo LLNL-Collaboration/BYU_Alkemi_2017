@@ -268,10 +268,10 @@ if __name__ == '__main__':
     data = reader.readPartition(run, part, cycle)
     print data.shape
 
-    data = reader.readAllZonesInCycle(run, zone)
+    data = reader.readAllZonesInCycle(run, cycle)
     print data.shape
 
-    data = reader.readAllCyclesForZone(run, cycle)
+    data = reader.readAllCyclesForZone(run, zone)
     print data.shape
 
     data = reader.getPartitionZoneIds(part)
