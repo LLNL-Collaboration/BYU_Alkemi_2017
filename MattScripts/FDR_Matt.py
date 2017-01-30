@@ -266,7 +266,11 @@ if __name__ == '__main__':
     #now I'll need to gather a section of the data points out so that I can plot the oddy spike
     
     data = reader.readAllZonesInCycle(run,zone)
-    print data.head()
+    df = pd.DataFrame(data)
+    print df.head(10)
+    
+    data = reader.getMetricNames()
+    print(data)
     
 
     
