@@ -264,7 +264,6 @@ if __name__ == '__main__':
     from matplotlib import pyplot as plt
     
     #now I'll need to gather a section of the data points out so that I can plot the oddy spike
-    
     data = reader.readAllZonesInCycle(run,zone)
     df = pd.DataFrame(data)
     print df.head(10)
