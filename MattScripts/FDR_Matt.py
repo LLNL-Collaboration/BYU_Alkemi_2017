@@ -263,13 +263,20 @@ if __name__ == '__main__':
     import pandas as pd
     from matplotlib import pyplot as plt
     
-    #now I'll need to gather a section of the data points out so that I can plot the oddy spike
-    data = reader.readAllZonesInCycle(run,zone)
+    #puts data into panda dataframe
+    data = reader.readAllCyclesForZone(run, zone)
     df = pd.DataFrame(data)
+    df.columns = reader.getMetricNames()
     print df.head(10)
     
-    data = reader.getMetricNames()
-    print(data)
+    x = range(0,df.shape[0])
+    y = df["oddy"]
+    plt.scatter(x,y,color = 'blue')
+    plt.xlabel("Time")
+    plt.ylabel("Oddy")
+    
+    
+    
     
 
     
