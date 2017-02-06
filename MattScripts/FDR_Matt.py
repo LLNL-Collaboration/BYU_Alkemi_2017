@@ -271,10 +271,10 @@ if __name__ == '__main__':
     
     x = range(0,df.shape[0])
     y = df["oddy"]
-    plt.scatter(x,y,color = 'blue')
+    plt.plot(x,y,'-o',color = 'blue')
     plt.xlabel("Time")
     plt.ylabel("Oddy")
-    
+    plt.show()
     
     
     
