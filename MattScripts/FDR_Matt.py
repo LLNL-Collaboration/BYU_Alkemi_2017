@@ -264,6 +264,7 @@ if __name__ == '__main__':
 # Recreate Brian's oddy spikes
     import pandas as pd
     from matplotlib import pyplot as plt
+    %matplotlib inline 
     
     #puts data into panda dataframe
     data = reader.readAllCyclesForZone(run, zone)
