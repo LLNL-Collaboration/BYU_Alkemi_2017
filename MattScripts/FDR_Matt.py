@@ -267,10 +267,12 @@ if __name__ == '__main__':
     data = reader.readAllCyclesForZone(run, zone)
     df = pd.DataFrame(data)
     df.columns = reader.getMetricNames()
-    print df.head(10)
+    # print df.head(10)
+    
     
     x = range(0,df.shape[0])
     y = df["oddy"]
+    print y.head(10)
     plt.plot(x,y,'-o',color = 'blue')
     plt.xlabel("Time")
     plt.ylabel("Oddy")
