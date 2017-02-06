@@ -257,7 +257,9 @@ if __name__ == '__main__':
     np.set_printoptions(suppress=True, precision=4)
 
     reader = FeatureDataReader(sys.argv[1], int(sys.argv[2]))
-    (run, part, cycle, zone) = (0, 0, 0, 0)
+    
+    #second failed zone from the side_p14 file
+    (run, part, cycle, zone) = (1, 0, 6619, 10802)
     
 # Recreate Brian's oddy spikes
     import pandas as pd
@@ -269,14 +271,20 @@ if __name__ == '__main__':
     df.columns = reader.getMetricNames()
     # print df.head(10)
     
+    print "CheckPoint: 1"
     
     x = range(0,df.shape[0])
     y = df["oddy"]
     print y.head(10)
+    
+    print "CheckPoint: 2"
+    
     plt.plot(x,y,'-o',color = 'blue')
     plt.xlabel("Time")
     plt.ylabel("Oddy")
     plt.show()
+    
+    print "CheckPoint: 3"
     
     
     
