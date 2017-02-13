@@ -1,0 +1,9 @@
+This is an explanation of the files included in my folder in case anyone is curious
+
+Analyze.py - take csv files of a variable and average the values to be printed to the screen
+AQT.py - updated QT.py
+FDR.py - compiles all Oddy data nicely into csv files for all zones currently
+FDROriginal.py - original FeatureDataReader.py in case I need it for reference
+FeatureDataReader.py - early experimentation
+OddyFindings.xlsx - beginning research on the failed zones
+QT.py - Take a csv file of all variables for a zone and make graphs of each
