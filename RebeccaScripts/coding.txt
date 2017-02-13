@@ -1,4 +1,0 @@
-FDR - take an entire run and average all of the cycle and make it into 12 csv files
-AQT - make all csv files into line graphs
-Analyze - beginning analysis on an Oddy File
-Oddy Analysis - Complete Breakdown
