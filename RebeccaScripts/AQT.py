@@ -13,7 +13,7 @@ def linePlot(fileName, variable, c):
     plt.figure()
     ax = data.plot(x='Time',y=variable, label=variable, color=c)
     fig =  ax.get_figure()  
-    fig.savefig(variable+'.png')
+    fig.savefig("6.1.8230.945fc/averageOddyValues/" + str(variable)+'.png')
     
 
     
@@ -25,7 +25,22 @@ if __name__ == '__main__':
 #    pd.set_option('display.width', 1000)
     colormap = plt.cm.gist_ncar #nipy_spectral, Set1,Paired   
     colors = [colormap(i) for i in np.linspace(0, 1,20)]
-
+              
+    folderName = "6.1.8230.945fc/averageOddyValues"
+    linePlot(str(folderName) + "/AvgValues0.csv", "0", colors[0])
+    linePlot(str(folderName) + "/AvgValues1.csv", "1", colors[1])
+    linePlot(str(folderName) + "/AvgValues2.csv", "2", colors[2])
+    linePlot(str(folderName) + "/AvgValues3.csv", "3", colors[3])
+    linePlot(str(folderName) + "/AvgValues4.csv", "4", colors[4])
+    linePlot(str(folderName) + "/AvgValues5.csv", "5", colors[5])
+    linePlot(str(folderName) + "/AvgValues6.csv", "6", colors[6])
+    linePlot(str(folderName) + "/AvgValues7.csv", "7", colors[7])
+    linePlot(str(folderName) + "/AvgValues8.csv", "8", colors[8])
+    linePlot(str(folderName) + "/AvgValues9.csv", "9", colors[9])
+    linePlot(str(folderName) + "/AvgValues10.csv", "10", colors[10])
+    linePlot(str(folderName) + "/AvgValues11.csv", "11", colors[11])
+              
+    """
     linePlot("Volume1.csv", "Volume", colors[0])
     linePlot("AR1.csv", "AR", colors[1])
     linePlot("CN11.csv", "CN", colors[2])
@@ -43,3 +58,4 @@ if __name__ == '__main__':
     linePlot("Stretch1.csv", "Stretch", colors[14])
     linePlot("Taper1.csv", "Taper", colors[15])
     linePlot("TotalAngle.csv", "TotalAngle", colors[16])
+    """
