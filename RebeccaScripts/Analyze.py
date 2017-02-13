@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 """
 This is used for analyzing the data in csv files.
 largestValue method
@@ -13,6 +14,9 @@ def largestValue(fileName):
     y = 360.0
     average = 0
     lines = 0
+    slope = 0
+    previous = 0
+    count = 0
     next(Values)
     for line in Values:
         line = line.strip();
@@ -23,17 +27,99 @@ def largestValue(fileName):
         if float(coms[1]) >= float(x):
             x = coms[1]
             x1 = coms[0]
+        temp = float(coms[1]) - float(previous)
+        slope += temp
+        if float(temp) > 1:
+            count +=1
+        previous = float(coms[1])
         average = average + float(coms[1])
         lines = lines + 1
     print "x " + str(x1) + " " + str(x)
     print "y " + str(y1) + " " + str(y)
-    print str(average/lines) + " " + str(lines)
+    print "Average value " + str(average/lines) + " " + str(lines)
+    print "Average Slope " + str(slope/lines)
+    print "High Slopes " + str(count)
     
+    
+def completeAveraging():
+    specifics = open("specifics.csv","w")
+    specifics.write("type,file,zone,value\n")
+    start = time.time()
+    AV = 0
+    x = 0
+    x1 = 0
+    y = 0
+    y1 = 0
+    avgval = 0
+    avgslo = 0
+    BigSlo = 0
+    BigVal = 0
+    LSlope = 0
+    LargestValues = 0
+    LargestSlopes = 0
 
+    while AV <= 11:
+        sx = 0
+	sx1 = 0
+	sy =0
+	sy1 = 0
+	savgval = 0
+	savgslo = 0
+	sBigSlo = 0
+	sBigVal = 0
+	sLSlope = 0
+	lineNum = 0
+        values = open("AvgValues" + str(AV) + ".csv", "r")
+        next(values)
+        for line in values:
+            line = line.strip()
+            coms = line.split(",")
+	    if float(coms[4])  > 1000000:
+	    	LargestValues += 1
+		specifics.write("A," + str(AV) + "," + str(lineNum) + "," + str(coms[4]) + "\n")
+            sx += float(coms[4])
+            sx1 += float(coms[5])
+            sy += float(coms[6])
+            sy1 += float(coms[7])
+            savgval += float(coms[8])
+            savgslo += float(coms[9])
+            sBigSlo += float(coms[10])
+            sBigVal += float(coms[11])
+            sLSlope += float(coms[12])       
+	    if float(coms[12]) > 1000000:
+	    	LargestSlopes += 1
+		specifics.write("B," + str(AV) + "," + str(lineNum) + "," + str(coms[12]) + "\n")
+
+	    lineNum +=1
+        AV += 1
+	x += float(sx/lineNum)
+	x1 += float(sx1/lineNum)
+	y += float(sy/lineNum)
+	y1 += float(sy1/lineNum)
+	avgval += float(savgval/lineNum)
+	avgslo += float(savgslo/lineNum)
+	BigSlo += float(sBigSlo/lineNum)
+	BigVal += float(sBigVal/lineNum)
+	LSlope += float(sLSlope/lineNum)
+	print time.time() - start
+        
+    print "Highest Value " + str(float(x/11))
+    print "Highest Cycle " + str(float(x1/11))
+    print "Lowest Value " + str(float(y/11))
+    print "Lowest Cycle " + str(float(y1/11))
+    print "Average Value " + str(float(avgval/11))
+    print "Average Slope " + str(float(avgslo/11))
+    print "Slope > 1 " + str(float(BigSlo/11))
+    print "Value > 100 " + str(float(BigVal/11))
+    print "Largest Slope " + str(float(LSlope/11))
+    print "Largest Values overall > 1000000 " + str(LargestValues)
+    print "Largest Slopes overall > 1000000 " + str(LargestSlopes)
+    
+    
 if __name__ == '__main__':
-    fileName = "Jacob1.csv"
-    largestValue("0.14.6899.10806/" + fileName)
-    print "\n"
-    largestValue("6.1.8230.945/" + fileName)
-    print "\n"
-    largestValue("7.1.7089.1113/" + fileName)
+    fileName = "OddyFile1.csv"
+    completeAveraging()
+    #print "\n"
+    #largestValue("6.1.8230.945fc/" + fileName)
+    #print "\n"
+    #largestValue("7.1.7089.1113" + "/" + fileName)
