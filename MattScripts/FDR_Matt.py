@@ -258,35 +258,47 @@ if __name__ == '__main__':
 
     reader = FeatureDataReader(sys.argv[1], int(sys.argv[2]))
     
-    #second failed zone from the side_p14 file
-    (run, part, cycle, zone) = (1, 0, 6619, 10802)
+    (run, part, cycle, zone) = (0, 0, 0, 0)
     
-# Recreate Brian's oddy spikes
+    
+    '''March 20th code modifciation
+    '''
+    #list of failed zones (run,part,cycle,zone) 
+    # fail_zones = [(0,0,6899,10806),(1,0,6619,10802),(2,0,7511,10784), \
+                  # (3,0,7787,10807),(4,0,7672,10169),(5,0,7441,10827), \
+                  # (6,0,8230,945),(7,0,7089,1113),(8,0,6697,944),(9,0,6830,1099)]
+    
+    # gather failed zone data and store as csv files
     import pandas as pd
-    from matplotlib import pyplot as plt
-    %matplotlib inline 
+    import time
+    start_time = time.time()
+    fz = pd.read_table('failed_zones.txt',delimiter=',')
+    # fz.head()
     
-    #puts data into panda dataframe
-    data = reader.readAllCyclesForZone(run, zone)
-    df = pd.DataFrame(data)
-    df.columns = reader.getMetricNames()
-    print df.head(5)
+    fail_zones = list()
+    for i in range(0,fz.shape[0]):
+        (run,cycle,zone) = (fz[fz.columns[0]][i],fz[fz.columns[1]][i],fz[fz.columns[2]][i])
+        fail_zones.append((run,cycle,zone))
     
+    '''End of code modification 3/20
+    '''
     
-    x = range(0,df.shape[0])
-    y = df["oddy"]
-    print y.head(10)
+
+    
+    #loops through failed zones
+    for i in range(0,len(fail_zones)):       
+        (run, cycle, zone) = fail_zones[i]
+        #puts data into panda dataframe
+        data = reader.readAllCyclesForZone(run, zone)
+        df = pd.DataFrame(data)
+        df.columns = reader.getMetricNames()
         
-    plt.plot(x,y,'-o',color = 'blue')
-    plt.xlabel("Time")
-    plt.ylabel("Oddy")
-    plt.show()
-    
-    # data = pd.read_csv(fileName)
-    # plt.figure()
-    # ax = data.plot(x='Time',y=variable, label=variable, color=c)
-    # fig =  ax.get_figure()  
-    # fig.savefig(variable+'.png')    
+        # save data to csv file
+        filename = 'fail_data_' + str(i) + '.csv'
+        df.to_csv(filename,index = False)
+        # clf_format.to_csv('PCA NB fare age sex Matt.csv',index=False)
+        
+    print("Runtime: ",time.time()-start_time)
     
         
     #All code below is from Ming's original script
