@@ -260,45 +260,85 @@ if __name__ == '__main__':
     
     (run, part, cycle, zone) = (0, 0, 0, 0)
     
-    
-    '''March 20th code modifciation
-    '''
-    #list of failed zones (run,part,cycle,zone) 
-    # fail_zones = [(0,0,6899,10806),(1,0,6619,10802),(2,0,7511,10784), \
-                  # (3,0,7787,10807),(4,0,7672,10169),(5,0,7441,10827), \
-                  # (6,0,8230,945),(7,0,7089,1113),(8,0,6697,944),(9,0,6830,1099)]
+    #######################################
+    # EDITING BELOW THIS POINT IS OK ######
+    #######################################
     
     # gather failed zone data and store as csv files
     import pandas as pd
     import time
     start_time = time.time()
     fz = pd.read_table('failed_zones.txt',delimiter=',')
-    # fz.head()
+
     
-    fail_zones = list()
+    '''Next steps from 3/28 telecon call
+    '''
+    # Summary statistics for all failed runs
+    
+    fail_zones = list() #make list of id specs for all failed zones
     for i in range(0,fz.shape[0]):
         (run,cycle,zone) = (fz[fz.columns[0]][i],fz[fz.columns[1]][i],fz[fz.columns[2]][i])
         fail_zones.append((run,cycle,zone))
+        
+        
     
-    '''End of code modification 3/20
-    '''
+    # Look at the oddy spike for a sample of non failed zones
+        #find zones that were close to failure
+    # Investigate the outliers. Why are they different from other failed zones in ttf
+        #use Multiple linear regression to figure that out 
+    # Come up with a rule to find the spike before it happens
+    
+    # data = reader.getMetricNames()
+    # print data
+
+    for j in range(0,99):#len(fail_zones)):       
+        (run, cycle, zone) = fail_zones[j]
+        data = reader.readAllCyclesForZone(run, zone)
+        
+        xx = data[:,6]
+        rule= False
+        t = 10
+        std_rule = 16
+        group_std = 0 #standard deviation of the values for all cycles up to point but including t
+        while rule!=True:
+            group_std = xx[:t].std()
+            group_mean = xx[:t].mean()
+            diff = xx[t+1] - group_mean
+
+            if t == len(xx):#exit loop if reach end of run
+                print("rule didn't apply")
+                break
+            elif diff > (group_std * std_rule):
+                rule = True
+            else: t += 1       
+        print'Run: ', j
+        print'Spike begins at: ',t
+        # print('Actual TTF: ',ttf[val])
+        print'Ruled Based TTF: ',len(xx)-t
+        # print('Difference: ', (len(xx)-t) -  ttf[val] ,'\n')        
     
 
-    
+    '''End of notes from 3/28 telecon call
+    '''
+       
     #loops through failed zones
-    for i in range(0,len(fail_zones)):       
-        (run, cycle, zone) = fail_zones[i]
-        #puts data into panda dataframe
-        data = reader.readAllCyclesForZone(run, zone)
-        df = pd.DataFrame(data)
-        df.columns = reader.getMetricNames()
-        
-        # save data to csv file
-        filename = 'fail_data_' + str(i) + '.csv'
-        df.to_csv(filename,index = False)
-        # clf_format.to_csv('PCA NB fare age sex Matt.csv',index=False)
+    # for j in range(0,len(fail_zones)):       
+    #     (run, cycle, zone) = fail_zones[j]
+    #     #puts data into panda dataframe
+    #     data = reader.readAllCyclesForZone(run, zone)
+        # df = pd.DataFrame(data)
+        # df.columns = reader.getMetricNames()
+        # print('Run: ' + str(j))
+        # print(data[:5])
+        # # save data to csv file
+        # filename = 'fail_data_' + str(i) + '.csv'
+        # df.to_csv(filename,index = False)
         
     print("Runtime: ",time.time()-start_time)
+
+    
+    
+    
     
         
     #All code below is from Ming's original script
