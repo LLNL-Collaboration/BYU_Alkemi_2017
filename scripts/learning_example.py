@@ -74,7 +74,7 @@ def get_reader(data_dir):
 #
 def get_num_partitions(data_dir):
 
-    files = glob.glob("%s/indexes/indexes_p*_r00.txt" % data_dir)
+    files = glob.glob("%s/indexes/indexes_p*_r000.txt" % data_dir)
     return len(files)
 
 #
